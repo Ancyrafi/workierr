@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "637908031121",
+    "project_id": "nowyprojektdrive",
+    "storage_bucket": "nowyprojektdrive.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637908031121:android:da302683b1c3bc3a125130",
+        "android_client_info": {
+          "package_name": "com.ersa.aplikacja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637908031121-59q26o9fambsrd9jp5okn54d63sl3mf0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlHlwu-MYgwOsSje5j9i7XIn_O8J4dHm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637908031121-59q26o9fambsrd9jp5okn54d63sl3mf0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "637908031121-gkm02r9cek6q00ubftub5jhsl72klert.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rsa.drivedru"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637908031121:android:a28cbdf22caa4689125130",
+        "android_client_info": {
+          "package_name": "com.rsa.drivedru"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637908031121-59q26o9fambsrd9jp5okn54d63sl3mf0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlHlwu-MYgwOsSje5j9i7XIn_O8J4dHm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637908031121-59q26o9fambsrd9jp5okn54d63sl3mf0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "637908031121-gkm02r9cek6q00ubftub5jhsl72klert.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rsa.drivedru"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
