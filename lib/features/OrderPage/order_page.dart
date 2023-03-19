@@ -1,4 +1,6 @@
+import 'package:aplikacja/features/OrderPage/cubit/order_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../AddOrder/add_order.dart';
 
@@ -12,24 +14,36 @@ class OrderPage extends StatefulWidget {
 class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Wystaw swoje zlecenie'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const AddOrderPage()));
+    return BlocProvider(
+      create: (context) => OrderCubit()..start(),
+      child: BlocBuilder<OrderCubit, OrderState>(
+        builder: (context, state) {
+          if (state.load) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Wystaw swoje zlecenie'),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const AddOrderPage()));
+              },
+              child: const Icon(Icons.add_box),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(10),
+              child: ListView(
+                children: const [
+                  Myquestlist(),
+                ],
+              ),
+            ),
+          );
         },
-        child: const Icon(Icons.add_box),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: const [
-            Myquestlist(),
-          ],
-        ),
       ),
     );
   }
@@ -64,6 +78,13 @@ class Myquestlist extends StatelessWidget {
             SizedBox(height: 10),
             Text(
               'Opis zlecenia...',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.black54,
+              ),
+            ),
+            Text(
+              'Kwota',
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.black54,
