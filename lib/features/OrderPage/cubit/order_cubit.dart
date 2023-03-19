@@ -43,6 +43,10 @@ class OrderCubit extends Cubit<OrderState> {
       });
   }
 
+  Future<void> delete(String id) async {
+    FirebaseFirestore.instance.collection('users').doc(id).delete();
+  }
+
   @override
   Future<void> close() {
     _streamSubscription?.cancel();

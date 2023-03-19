@@ -43,7 +43,13 @@ class _OrderPageState extends State<OrderPage> {
                   for (final document in documents) ...[
                     Column(
                       children: [
-                        DocumentContainer(document: document),
+                        Dismissible(
+                          key: ValueKey(document.id),
+                          onDismissed: (_) {
+                            context.read<OrderCubit>().delete(document.id);
+                          },
+                          child: DocumentContainer(document: document),
+                        ),
                       ],
                     ),
                   ],
@@ -78,8 +84,7 @@ class DocumentContainer extends StatelessWidget {
           ),
         ],
       ),
-      margin: const EdgeInsets.symmetric(
-          vertical: 5, horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Padding(
         padding: const EdgeInsets.all(15),
         child: Row(
