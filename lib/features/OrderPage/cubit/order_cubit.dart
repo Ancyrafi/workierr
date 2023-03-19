@@ -9,29 +9,43 @@ class OrderCubit extends Cubit<OrderState> {
   OrderCubit()
       : super(
           OrderState(
-            price: '',
-            title: '',
-            description: '',
+            documents: [],
             load: false,
           ),
         );
 
+  StreamSubscription? _streamSubscription;
+
   Future<void> start() async {
     emit(
       OrderState(
-        title: '',
-        description: '',
-        price: '',
+        documents: [],
         load: true,
       ),
     );
 
     await Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(seconds: 2),
     );
 
-    emit(
-      OrderState(title: '', description: '', price: '', load: false),
-    );
+    _streamSubscription = FirebaseFirestore.instance
+        .collection('users')
+        .snapshots()
+        .listen((data) {
+      emit(
+        OrderState(documents: data.docs, load: false),
+      );
+    })
+      ..onError((error) {
+        emit(
+          OrderState(documents: [], load: true),
+        );
+      });
+  }
+
+  @override
+  Future<void> close() {
+    _streamSubscription?.cancel();
+    return super.close();
   }
 }

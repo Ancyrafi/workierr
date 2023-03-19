@@ -1,4 +1,5 @@
 import 'package:aplikacja/features/OrderPage/cubit/order_cubit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +19,7 @@ class _OrderPageState extends State<OrderPage> {
       create: (context) => OrderCubit()..start(),
       child: BlocBuilder<OrderCubit, OrderState>(
         builder: (context, state) {
+          final documents = state.documents;
           if (state.load) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -37,8 +39,14 @@ class _OrderPageState extends State<OrderPage> {
             body: Padding(
               padding: const EdgeInsets.all(10),
               child: ListView(
-                children: const [
-                  Myquestlist(),
+                children: [
+                  for (final document in documents) ...[
+                    Column(
+                      children: [
+                        DocumentContainer(document: document),
+                      ],
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -49,43 +57,58 @@ class _OrderPageState extends State<OrderPage> {
   }
 }
 
-class Myquestlist extends StatelessWidget {
-  const Myquestlist({
+class DocumentContainer extends StatelessWidget {
+  const DocumentContainer({
     super.key,
+    required this.document,
   });
+
+  final QueryDocumentSnapshot<Map<String, dynamic>> document;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
+    return Container(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 2.0,
+          ),
+        ],
       ),
-      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      margin: const EdgeInsets.symmetric(
+          vertical: 5, horizontal: 10),
       child: Padding(
         padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              'Zlecenie',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  document['title'],
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  document['description'],
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 10),
             Text(
-              'Opis zlecenia...',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.black54,
-              ),
-            ),
-            Text(
-              'Kwota',
-              style: TextStyle(
+              '${document['price']} zł',
+              style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black54,
               ),
