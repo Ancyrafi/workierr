@@ -15,51 +15,67 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Builder(builder: (context) {
-        if (index == 2) {
-          return const UserProfile();
-        }
-        if (index == 1) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const QuestPage()));
-                  },
-                  child: const Text('Szukaj zlecenia'),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
-            ),
-          );
-        }
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Center(
-              child: Text('Wybierz Czego szukasz'),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: ((context) => const OrderPage()),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Builder(builder: (context) {
+          if (index == 2) {
+            return const UserProfile();
+          }
+          if (index == 1) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const QuestPage()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 12.0),
+                      textStyle: const TextStyle(fontSize: 18.0),
+                    ),
+                    child: const Text('Szukaj zlecenia'),
                   ),
-                );
-              },
-              child: const Text('Wystaw zlecenie'),
-            ),
-          ],
-        );
-      }),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                ],
+              ),
+            );
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Center(
+                child: Text(
+                  'Wybierz Czego szukasz',
+                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: ((context) => const OrderPage()),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0, vertical: 12.0),
+                  textStyle: const TextStyle(fontSize: 18.0),
+                ),
+                child: const Text('Wystaw zlecenie'),
+              ),
+            ],
+          );
+        }),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
         onTap: (newIndex) {
@@ -69,16 +85,16 @@ class _HomeState extends State<Home> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.plus_one),
-            label: 'Guzik',
+            icon: Icon(Icons.add),
+            label: 'Stwórz zlecenie',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.plus_one),
-            label: 'Guzik',
+            icon: Icon(Icons.list_alt),
+            label: 'Zlecenia',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.plus_one),
-            label: 'Guzik',
+            icon: Icon(Icons.person),
+            label: 'Moje Konto',
           ),
         ],
       ),
