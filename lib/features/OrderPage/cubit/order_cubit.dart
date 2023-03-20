@@ -33,8 +33,8 @@ class OrderCubit extends Cubit<OrderState> {
     _streamSubscription = FirebaseFirestore.instance
         .collection('users')
         .snapshots()
-        .listen((data) {
-      final model = data.docs.map((doc) {
+        .listen((documents) {
+      final model = documents.docs.map((doc) {
         return Model(
           title: doc['title'],
           description: doc['description'],
@@ -47,7 +47,8 @@ class OrderCubit extends Cubit<OrderState> {
       );
     })
       ..onError((error) {
-        emit(
+        print('Error in stream subscription: $error');
+        emit( 
           OrderState(documents: [], load: true),
         );
       });

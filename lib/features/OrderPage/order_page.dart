@@ -1,7 +1,6 @@
 import 'package:aplikacja/features/OrderPage/cubit/order_cubit.dart';
 import 'package:aplikacja/model/model.dart';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,7 +20,7 @@ class _OrderPageState extends State<OrderPage> {
       create: (context) => OrderCubit()..start(),
       child: BlocBuilder<OrderCubit, OrderState>(
         builder: (context, state) {
-          final documents = state.documents;
+          final models = state.documents;
           if (state.load) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -42,15 +41,15 @@ class _OrderPageState extends State<OrderPage> {
               padding: const EdgeInsets.all(10),
               child: ListView(
                 children: [
-                  for (final document in documents) ...[
+                  for (final model in models) ...[
                     Column(
                       children: [
                         Dismissible(
-                          key: ValueKey(document.id),
+                          key: ValueKey(model.id),
                           onDismissed: (_) {
-                            context.read<OrderCubit>().delete(document.id);
+                            context.read<OrderCubit>().delete(model.id);
                           },
-                          child: DocumentCont(document: document),
+                          child: DocumentCont(model: model),
                         ),
                       ],
                     ),
@@ -68,10 +67,10 @@ class _OrderPageState extends State<OrderPage> {
 class DocumentCont extends StatelessWidget {
   const DocumentCont({
     super.key,
-    required this.document,
+    required this.model,
   });
 
-  final Model document;
+  final Model model;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +95,7 @@ class DocumentCont extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  document.title,
+                  model.title,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -105,7 +104,7 @@ class DocumentCont extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  document.description,
+                  model.description,
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.black54,
@@ -114,7 +113,7 @@ class DocumentCont extends StatelessWidget {
               ],
             ),
             Text(
-              '${document.price} zł',
+              '${model.price} zł',
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black54,
@@ -126,5 +125,3 @@ class DocumentCont extends StatelessWidget {
     );
   }
 }
-
-
