@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../model/model.dart';
+
 part 'order_state.dart';
 
 class OrderCubit extends Cubit<OrderState> {
@@ -32,8 +34,16 @@ class OrderCubit extends Cubit<OrderState> {
         .collection('users')
         .snapshots()
         .listen((data) {
+      final model = data.docs.map((doc) {
+        return Model(
+          title: doc['title'],
+          description: doc['description'],
+          price: doc['price'],
+          id: doc['id'],
+        );
+      }).toList();
       emit(
-        OrderState(documents: data.docs, load: false),
+        OrderState(documents: model, load: false),
       );
     })
       ..onError((error) {

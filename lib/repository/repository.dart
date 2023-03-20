@@ -11,7 +11,9 @@ class Repository {
         return Model(
             title: doc['title'],
             description: doc['description'],
-            price: doc['price']);
+            price: doc['price'],
+            id: doc['id'],
+            );
       }).toList();
     });
   }

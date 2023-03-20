@@ -1,7 +1,7 @@
 part of 'order_cubit.dart';
 
 class OrderState {
-  final List<QueryDocumentSnapshot<Map<String, dynamic>>> documents;
+  final List<Model> documents;
   bool load = false;
 
   OrderState(

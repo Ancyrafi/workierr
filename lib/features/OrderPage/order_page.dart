@@ -1,12 +1,14 @@
 import 'package:aplikacja/features/OrderPage/cubit/order_cubit.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:aplikacja/model/model.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../AddOrder/add_order.dart';
 
 class OrderPage extends StatefulWidget {
-  const OrderPage({super.key});
+  const OrderPage({Key? key}) : super(key: key);
 
   @override
   State<OrderPage> createState() => _OrderPageState();
@@ -48,7 +50,7 @@ class _OrderPageState extends State<OrderPage> {
                           onDismissed: (_) {
                             context.read<OrderCubit>().delete(document.id);
                           },
-                          child: DocumentContainer(document: document),
+                          child: DocumentCont(document: document),
                         ),
                       ],
                     ),
@@ -63,13 +65,13 @@ class _OrderPageState extends State<OrderPage> {
   }
 }
 
-class DocumentContainer extends StatelessWidget {
-  const DocumentContainer({
+class DocumentCont extends StatelessWidget {
+  const DocumentCont({
     super.key,
     required this.document,
   });
 
-  final QueryDocumentSnapshot<Map<String, dynamic>> document;
+  final Model document;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +96,7 @@ class DocumentContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  document['title'],
+                  document.title,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -103,7 +105,7 @@ class DocumentContainer extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  document['description'],
+                  document.description,
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.black54,
@@ -112,7 +114,7 @@ class DocumentContainer extends StatelessWidget {
               ],
             ),
             Text(
-              '${document['price']} zł',
+              '${document.price} zł',
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black54,
@@ -124,3 +126,5 @@ class DocumentContainer extends StatelessWidget {
     );
   }
 }
+
+
