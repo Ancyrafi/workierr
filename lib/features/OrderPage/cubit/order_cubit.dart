@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:aplikacja/repository/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../model/model.dart';
@@ -8,13 +8,14 @@ import '../../../model/model.dart';
 part 'order_state.dart';
 
 class OrderCubit extends Cubit<OrderState> {
-  OrderCubit()
+  OrderCubit(this._repository)
       : super(
           OrderState(
             documents: [],
             load: false,
           ),
         );
+  final Repository _repository;
 
   StreamSubscription? _streamSubscription;
 
@@ -30,32 +31,26 @@ class OrderCubit extends Cubit<OrderState> {
       const Duration(seconds: 2),
     );
 
-    _streamSubscription = FirebaseFirestore.instance
-        .collection('users')
-        .snapshots()
-        .listen((documents) {
-      final model = documents.docs.map((doc) {
-        return Model(
-          title: doc['title'],
-          description: doc['description'],
-          price: doc['price'],
-          id: doc['id'],
-        );
-      }).toList();
+    _streamSubscription = _repository.getModel().listen((model) {
       emit(
         OrderState(documents: model, load: false),
       );
     })
       ..onError((error) {
-        print('Error in stream subscription: $error');
-        emit( 
+        emit(
           OrderState(documents: [], load: true),
         );
       });
   }
 
   Future<void> delete(String id) async {
-    FirebaseFirestore.instance.collection('users').doc(id).delete();
+    try {
+      await _repository.delete(id: id);
+    } catch (error) {
+      emit(
+        OrderState(documents: [], load: true),
+      );
+    }
   }
 
   @override

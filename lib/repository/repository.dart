@@ -9,12 +9,24 @@ class Repository {
         .map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
         return Model(
-            title: doc['title'],
-            description: doc['description'],
-            price: doc['price'],
-            id: doc['id'],
-            );
+          title: doc['title'],
+          description: doc['description'],
+          price: doc['price'],
+          id: doc.id,
+        );
       }).toList();
+    });
+  }
+
+  Future<void> delete({required String id}) async {
+    await FirebaseFirestore.instance.collection('users').doc(id).delete();
+  }
+
+  Future<void> addOrder(String title, String description, String price) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'title': title,
+      'description': description,
+      'price': price,
     });
   }
 }

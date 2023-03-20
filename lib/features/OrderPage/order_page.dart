@@ -1,5 +1,6 @@
 import 'package:aplikacja/features/OrderPage/cubit/order_cubit.dart';
 import 'package:aplikacja/model/model.dart';
+import 'package:aplikacja/repository/repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,7 @@ class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OrderCubit()..start(),
+      create: (context) => OrderCubit(Repository())..start(),
       child: BlocBuilder<OrderCubit, OrderState>(
         builder: (context, state) {
           final models = state.documents;

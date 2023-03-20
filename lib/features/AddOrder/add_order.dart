@@ -1,3 +1,4 @@
+import 'package:aplikacja/repository/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
@@ -19,18 +20,19 @@ class _AddOrderPageState extends State<AddOrderPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddOrderCubit(),
+      create: (context) => AddOrderCubit(Repository()),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Dodaj zlecenie'),
         ),
         body: BlocBuilder<AddOrderCubit, bool>(
-          builder: (context, isSuccess) {
-            if (isSuccess) {
+          builder: (context, isSucces) {
+            if (isSucces) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.of(context).pop();
               });
             }
+
             return Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -67,11 +69,22 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      context.read<AddOrderCubit>().addOrder(
-                            _titleController.text,
-                            _descriptionController.text,
-                            _priceController.text,
-                          );
+                      if (_titleController.text.isNotEmpty &&
+                          _descriptionController.text.isNotEmpty &&
+                          _priceController.text.isNotEmpty) {
+                        context.read<AddOrderCubit>().addOrder(
+                              _titleController.text,
+                              _descriptionController.text,
+                              _priceController.text,
+                            );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            backgroundColor: Colors.black,
+                            content: Text('Pola nie mogą być puste!'),
+                          ),
+                        );
+                      }
                     },
                     child: const Text('Dodaj zlecenie'),
                   ),

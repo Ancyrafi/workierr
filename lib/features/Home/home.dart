@@ -86,14 +86,29 @@ class _HomeState extends State<Home> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.add),
+            activeIcon: Icon(
+              Icons.add,
+              color: Colors.blue,
+              size: 30,
+            ),
             label: 'Stwórz zlecenie',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list_alt),
+            activeIcon: Icon(
+              Icons.list_alt,
+              color: Colors.blue,
+              size: 30,
+            ),
             label: 'Zlecenia',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
+            activeIcon: Icon(
+              Icons.person,
+              color: Colors.blue,
+              size: 30,
+            ),
             label: 'Moje Konto',
           ),
         ],
