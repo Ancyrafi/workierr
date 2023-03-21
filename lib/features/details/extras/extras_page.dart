@@ -24,19 +24,21 @@ class ExtrasPage extends StatelessWidget {
             );
           }
           return Scaffold(
-            appBar: AppBar(
-              title: const Text('Dokładne Informacje'),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(10),
-              child: ListView(
-                children: [
-                  Column(
+            body: CustomPaint(
+              painter: _BackgroundGradientPainter(),
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: ListView(
                     children: [
-                      DocumentCont(models: item),
+                      Column(
+                        children: [
+                          DocumentCont(models: item),
+                        ],
+                      ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           );
@@ -44,6 +46,32 @@ class ExtrasPage extends StatelessWidget {
       ),
     );
   }
+}
+
+class _BackgroundGradientPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final gradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Colors.black,
+        Colors.red.shade900,
+        Colors.red.shade600,
+        Colors.red,
+      ],
+    );
+
+    final rect = Rect.fromLTWH(0, 0, size.width, size.height);
+    final paint = Paint()
+      ..shader = gradient.createShader(rect)
+      ..style = PaintingStyle.fill;
+
+    canvas.drawRect(rect, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class DocumentCont extends StatelessWidget {
@@ -73,27 +101,32 @@ class DocumentCont extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child: Text(
+                models.title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Center(
+              child: Text(
+                models.description,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
             Text(
-              models.title,
+              'Adres: ${models.fullDescription}',
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              models.description,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.black54,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Pełny opis: ${models.fullDescription}',
-              style: const TextStyle(
-                fontSize: 14,
                 color: Colors.black54,
               ),
             ),
@@ -102,25 +135,42 @@ class DocumentCont extends StatelessWidget {
               'Numer telefonu: ${models.phoneNumber}',
               style: const TextStyle(
                 fontSize: 14,
+                fontWeight: FontWeight.bold,
                 color: Colors.black54,
               ),
             ),
             const SizedBox(height: 10),
-            Text(
-              'Adres: ${models.adress}',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.black54,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Text(
-                '${models.price} zł',
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black54,
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 1.0,
+                    ),
+                  ],
+                ),
+                width: double.infinity,
+                constraints: const BoxConstraints(minHeight: 100),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Pełny opis',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      Text(
+                        models.adress,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

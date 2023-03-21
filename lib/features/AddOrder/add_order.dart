@@ -27,89 +27,92 @@ class _AddOrderPageState extends State<AddOrderPage> {
         appBar: AppBar(
           title: const Text('Dodaj zlecenie'),
         ),
-        body: BlocBuilder<AddOrderCubit, bool>(
-          builder: (context, isSucces) {
-            if (isSucces) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.of(context).pop();
-              });
-            }
+        body: SafeArea(
+          child: BlocBuilder<AddOrderCubit, bool>(
+            builder: (context, isSucces) {
+              if (isSucces) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Navigator.of(context).pop();
+                });
+              }
 
-            return Padding(
-              padding: const EdgeInsets.all(16),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildTextField(
-                      labelText: 'Tytuł Zlecenia',
-                      controller: _titleController,
-                      hintText: 'Podaj tytuł swojego zlecenia',
-                    ),
-                    _buildTextField(
-                      labelText: 'Krótki opis zlecenia',
-                      controller: _descriptionController,
-                      hintText:
-                          'Napisz krótki opis zlecenia, aby był widoczny na liście wyboru',
-                    ),
-                    _buildTextField(
-                        controller: _priceController,
+              return Padding(
+                padding: const EdgeInsets.all(16),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildTextField(
+                        labelText: 'Tytuł Zlecenia',
+                        controller: _titleController,
+                        hintText: 'Podaj tytuł swojego zlecenia',
+                      ),
+                      _buildTextField(
+                        labelText: 'Krótki opis zlecenia',
+                        controller: _descriptionController,
                         hintText:
-                            'Podaj nam informacje ile jesteś wstanie zapłacić za wykonanie usługi',
-                        labelText: 'Kwota',
-                        keyboardType: TextInputType.number,
-                        suffixText: 'Zł'),
-                    _buildTextField(
-                      controller: _phoneNumberController,
-                      hintText: 'Podaj numer telefonu w celach kontaktowych',
-                      labelText: 'Numer Kontaktowy',
-                      keyboardType: TextInputType.phone,
-                    ),
-                    _buildTextField(
-                        controller: _addressController,
-                        hintText:
-                            'Podaj adres, na który ma się stawić zleceniobiorca',
-                        labelText: 'Adres'),
-                    _buildTextField(
-                      labelText: 'Pełny opis, Opisz dokładnie czego wymagasz.',
-                      controller: _fullDescriptionController,
-                      hintText: 'Pełny opis',
-                      maxLength: 250,
-                      maxLines: 4,
-                    ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_titleController.text.isNotEmpty &&
-                            _descriptionController.text.isNotEmpty &&
-                            _priceController.text.isNotEmpty &&
-                            _phoneNumberController.text.isNotEmpty &&
-                            _addressController.text.isNotEmpty &&
-                            _fullDescriptionController.text.isNotEmpty) {
-                          context.read<AddOrderCubit>().addOrder(
-                                _titleController.text,
-                                _descriptionController.text,
-                                _priceController.text,
-                                _phoneNumberController.text,
-                                _addressController.text,
-                                _fullDescriptionController.text,
-                              );
-                          Navigator.of(context).pop();
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              backgroundColor: Colors.black,
-                              content: Text('Pola nie mogą być puste!'),
-                            ),
-                          );
-                        }
-                      },
-                      child: const Text('Dodaj zlecenie'),
-                    ),
-                  ],
+                            'Napisz krótki opis zlecenia, aby był widoczny na liście wyboru',
+                      ),
+                      _buildTextField(
+                          controller: _priceController,
+                          hintText:
+                              'Podaj nam informacje ile jesteś wstanie zapłacić za wykonanie usługi',
+                          labelText: 'Kwota',
+                          keyboardType: TextInputType.number,
+                          suffixText: 'Zł'),
+                      _buildTextField(
+                        controller: _phoneNumberController,
+                        hintText: 'Podaj numer telefonu w celach kontaktowych',
+                        labelText: 'Numer Kontaktowy',
+                        keyboardType: TextInputType.phone,
+                      ),
+                      _buildTextField(
+                          controller: _addressController,
+                          hintText:
+                              'Podaj adres, na który ma się stawić zleceniobiorca',
+                          labelText: 'Adres'),
+                      _buildTextField(
+                        labelText:
+                            'Pełny opis, Opisz dokładnie czego wymagasz.',
+                        controller: _fullDescriptionController,
+                        hintText: 'Pełny opis',
+                        maxLength: 250,
+                        maxLines: 4,
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_titleController.text.isNotEmpty &&
+                              _descriptionController.text.isNotEmpty &&
+                              _priceController.text.isNotEmpty &&
+                              _phoneNumberController.text.isNotEmpty &&
+                              _addressController.text.isNotEmpty &&
+                              _fullDescriptionController.text.isNotEmpty) {
+                            context.read<AddOrderCubit>().addOrder(
+                                  _titleController.text,
+                                  _descriptionController.text,
+                                  _priceController.text,
+                                  _phoneNumberController.text,
+                                  _addressController.text,
+                                  _fullDescriptionController.text,
+                                );
+                            Navigator.of(context).pop();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: Colors.black,
+                                content: Text('Pola nie mogą być puste!'),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text('Dodaj zlecenie'),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
