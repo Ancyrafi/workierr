@@ -29,4 +29,15 @@ class Repository {
       'price': price,
     });
   }
+
+  Future<Model> extras({required String id}) async {
+    final doc =
+        await FirebaseFirestore.instance.collection('users').doc(id).get();
+    return Model(
+      title: doc['title'],
+      description: doc['description'],
+      price: doc['price'],
+      id: doc.id,
+    );
+  }
 }
