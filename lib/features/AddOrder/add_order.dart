@@ -77,6 +77,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                               _descriptionController.text,
                               _priceController.text,
                             );
+                        Navigator.of(context).pop();
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

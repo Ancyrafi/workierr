@@ -13,6 +13,9 @@ class Repository {
           description: doc['description'],
           price: doc['price'],
           id: doc.id,
+          adress: doc['adress'],
+          phoneNumber: doc['phonenumber'],
+          fullDescription: doc['fulldescription'],
         );
       }).toList();
     });
@@ -38,6 +41,9 @@ class Repository {
       description: doc['description'],
       price: doc['price'],
       id: doc.id,
+      phoneNumber: doc['phonenumber'],
+      adress: doc['adress'],
+      fullDescription: doc['fulldescription'],
     );
   }
 }

@@ -70,35 +70,58 @@ class DocumentCont extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       child: Padding(
         padding: const EdgeInsets.all(15),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  models.title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  models.description,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
-            ),
             Text(
-              '${models.price} zł',
+              models.title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              models.description,
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Pełny opis: ${models.fullDescription}',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Numer telefonu: ${models.phoneNumber}',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Adres: ${models.adress}',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Text(
+                '${models.price} zł',
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
+                ),
               ),
             ),
           ],
