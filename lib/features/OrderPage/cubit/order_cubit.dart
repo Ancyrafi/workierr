@@ -28,7 +28,7 @@ class OrderCubit extends Cubit<OrderState> {
     );
 
     await Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(seconds: 1),
     );
 
     _streamSubscription = _repository.getModel().listen((model) {
