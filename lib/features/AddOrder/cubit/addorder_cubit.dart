@@ -1,7 +1,6 @@
 import 'package:aplikacja/repository/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 part 'addorder_state.dart';
 
 class AddOrderCubit extends Cubit<bool> {
@@ -9,10 +8,18 @@ class AddOrderCubit extends Cubit<bool> {
 
   final Repository _repository;
 
-  Future<void> addOrder(String title, String description, String price) async {
+  Future<void> addOrder(
+    String title,
+    String description,
+    String price,
+    String fullDescription,
+    String adress,
+    String phoneNumber,
+  ) async {
     emit(false);
     try {
-      await _repository.addOrder(title, description, price);
+      await _repository.addOrder(
+          title, description, price, adress, fullDescription, phoneNumber);
     } catch (e) {
       emit(false);
       throw Exception('Nie udało się dodać zlecenia: $e');

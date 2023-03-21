@@ -25,11 +25,21 @@ class Repository {
     await FirebaseFirestore.instance.collection('users').doc(id).delete();
   }
 
-  Future<void> addOrder(String title, String description, String price) async {
+  Future<void> addOrder(
+    String title,
+    String description,
+    String price,
+    String fullDescription,
+    String phoneNumber,
+    String adress,
+  ) async {
     await FirebaseFirestore.instance.collection('users').add({
       'title': title,
       'description': description,
       'price': price,
+      'fulldescription': fullDescription,
+      'phonenumber': phoneNumber,
+      'adress': adress,
     });
   }
 

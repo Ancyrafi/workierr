@@ -89,9 +89,9 @@ class _AddOrderPageState extends State<AddOrderPage> {
                                 _titleController.text,
                                 _descriptionController.text,
                                 _priceController.text,
-                                //  _phoneNumberController.text,
-                                //  _addressController.text,
-                                //   _fullDescriptionController.text,
+                                _phoneNumberController.text,
+                                _addressController.text,
+                                _fullDescriptionController.text,
                               );
                           Navigator.of(context).pop();
                         } else {

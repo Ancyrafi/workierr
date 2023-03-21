@@ -1,5 +1,3 @@
 part of 'addorder_cubit.dart';
 
-
-class AddOrderState {
-}
+class AddOrderState {}
