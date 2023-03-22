@@ -94,4 +94,25 @@ class Repository {
       fullDescription: doc['fulldescription'],
     );
   }
+
+  Stream<List<Model>> allModel() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc()
+        .collection('items')
+        .snapshots()
+        .map((querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        return Model(
+          title: doc['title'],
+          description: doc['description'],
+          price: doc['price'],
+          id: doc.id,
+          adress: doc['adress'],
+          phoneNumber: doc['phonenumber'],
+          fullDescription: doc['fulldescription'],
+        );
+      }).toList();
+    });
+  }
 }
