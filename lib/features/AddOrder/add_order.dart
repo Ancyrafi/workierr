@@ -88,12 +88,13 @@ class _AddOrderPageState extends State<AddOrderPage> {
                               _addressController.text.isNotEmpty &&
                               _fullDescriptionController.text.isNotEmpty) {
                             context.read<AddOrderCubit>().addOrder(
-                                  _titleController.text,
-                                  _descriptionController.text,
-                                  _priceController.text,
-                                  _phoneNumberController.text,
-                                  _addressController.text,
-                                  _fullDescriptionController.text,
+                                  title: _titleController.text,
+                                  description: _descriptionController.text,
+                                  price: _priceController.text,
+                                  phoneNumber: _phoneNumberController.text,
+                                  adress: _addressController.text,
+                                  fullDescription:
+                                      _fullDescriptionController.text,
                                 );
                             Navigator.of(context).pop();
                           } else {

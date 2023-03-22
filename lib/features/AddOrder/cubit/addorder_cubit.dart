@@ -8,18 +8,23 @@ class AddOrderCubit extends Cubit<bool> {
 
   final Repository _repository;
 
-  Future<void> addOrder(
-    String title,
-    String description,
-    String price,
-    String fullDescription,
-    String adress,
-    String phoneNumber,
-  ) async {
+  Future<void> addOrder({
+    required String title,
+    required String description,
+    required String price,
+    required String fullDescription,
+    required String adress,
+    required String phoneNumber,
+  }) async {
     emit(false);
     try {
       await _repository.addOrder(
-          title, description, price, adress, fullDescription, phoneNumber);
+          title: title,
+          description: description,
+          price: price,
+          adress: adress,
+          fullDescription: fullDescription,
+          phoneNumber: phoneNumber);
     } catch (e) {
       emit(false);
       throw Exception('Nie udało się dodać zlecenia: $e');

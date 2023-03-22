@@ -42,14 +42,14 @@ class Repository {
         .delete();
   }
 
-  Future<void> addOrder(
-    String title,
-    String description,
-    String price,
-    String fullDescription,
-    String phoneNumber,
-    String adress,
-  ) async {
+  Future<void> addOrder({
+    required String title,
+    required String description,
+    required String price,
+    required String fullDescription,
+    required String phoneNumber,
+    required String adress,
+  }) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
       throw Exception('Do you must logged');
