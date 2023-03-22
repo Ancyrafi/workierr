@@ -18,6 +18,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
   final _phoneNumberController = TextEditingController();
   final _addressController = TextEditingController();
   final _fullDescriptionController = TextEditingController();
+  int? _selectedDuration;
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +79,44 @@ class _AddOrderPageState extends State<AddOrderPage> {
                         maxLength: 250,
                         maxLines: 4,
                       ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      DropdownButton<int>(
+                        value: _selectedDuration,
+                        hint: const Text('Wybierz czas trwania'),
+                        onChanged: (int? newValue) {
+                          setState(() {
+                            _selectedDuration = newValue;
+                          });
+                        },
+                        items: const [
+                          DropdownMenuItem(
+                            value: 30,
+                            child: Text('30 minut'),
+                          ),
+                          DropdownMenuItem(
+                            value: 60,
+                            child: Text('1 godzina'),
+                          ),
+                          DropdownMenuItem(
+                            value: 180,
+                            child: Text('3 godziny'),
+                          ),
+                          DropdownMenuItem(
+                            value: 360,
+                            child: Text('6 godzin'),
+                          ),
+                          DropdownMenuItem(
+                            value: 540,
+                            child: Text('9 godzin'),
+                          ),
+                          DropdownMenuItem(
+                            value: 1,
+                            child: Text('minuta test'),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
@@ -86,7 +125,8 @@ class _AddOrderPageState extends State<AddOrderPage> {
                               _priceController.text.isNotEmpty &&
                               _phoneNumberController.text.isNotEmpty &&
                               _addressController.text.isNotEmpty &&
-                              _fullDescriptionController.text.isNotEmpty) {
+                              _fullDescriptionController.text.isNotEmpty &&
+                              _selectedDuration != null) {
                             context.read<AddOrderCubit>().addOrder(
                                   title: _titleController.text,
                                   description: _descriptionController.text,
@@ -95,6 +135,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                                   adress: _addressController.text,
                                   fullDescription:
                                       _fullDescriptionController.text,
+                                  hours: _selectedDuration ?? 30,
                                 );
                             Navigator.of(context).pop();
                           } else {

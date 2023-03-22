@@ -49,6 +49,7 @@ class Repository {
     required String fullDescription,
     required String phoneNumber,
     required String adress,
+    required int hours,
   }) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
@@ -65,6 +66,9 @@ class Repository {
       'fulldescription': fullDescription,
       'phonenumber': phoneNumber,
       'adress': adress,
+      'creationTimestamp': FieldValue.serverTimestamp(),
+      'deleteTimestamp':
+          DateTime.now().add(Duration(minutes: hours)).millisecondsSinceEpoch,
     });
   }
 
