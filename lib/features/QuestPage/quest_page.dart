@@ -1,4 +1,3 @@
-
 import 'package:aplikacja/features/details/extras/extras_page.dart';
 import 'package:aplikacja/model/model.dart';
 import 'package:aplikacja/repository/repository.dart';

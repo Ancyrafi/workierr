@@ -97,9 +97,7 @@ class Repository {
 
   Stream<List<Model>> allModel() {
     return FirebaseFirestore.instance
-        .collection('users')
-        .doc()
-        .collection('items')
+        .collectionGroup('items')
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
