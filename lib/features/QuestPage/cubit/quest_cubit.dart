@@ -43,7 +43,6 @@ class QuestCubit extends Cubit<QuestState> {
       });
   }
 
-
   @override
   Future<void> close() {
     _streamSubscription?.cancel();

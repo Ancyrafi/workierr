@@ -18,7 +18,7 @@ class _QuestPageState extends State<QuestPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => QuestCubit(Repository()),
+      create: (context) => QuestCubit(Repository())..start(),
       child: BlocBuilder<QuestCubit, QuestState>(
         builder: (context, state) {
           final models = state.documents;

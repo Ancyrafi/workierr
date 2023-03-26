@@ -12,7 +12,7 @@ exports.deleteExpiredOrders = functions.pubsub
       const now = Date.now();
       console.log("Bieżący czas:", now);
 
-      console.log("Liczba użytkowników:", usersSnapshot.size);
+      console.log("Liczba użytkowników:", usersSnapshot.id);
 
       usersSnapshot.forEach(async (userDoc) => {
         console.log("Sprawdzanie użytkownika:", userDoc.id);

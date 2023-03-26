@@ -69,6 +69,7 @@ class Repository {
       'creationTimestamp': FieldValue.serverTimestamp(),
       'deleteTimestamp':
           DateTime.now().add(Duration(minutes: hours)).millisecondsSinceEpoch,
+      'userID': userID,
     });
   }
 
