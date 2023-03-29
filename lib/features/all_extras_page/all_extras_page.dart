@@ -4,18 +4,21 @@ import 'package:aplikacja/repository/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubit/extras_cubit.dart';
+import 'cubit/allextras_cubit.dart';
 
-class ExtrasPage extends StatelessWidget {
-  const ExtrasPage({required this.id, Key? key}) : super(key: key);
+class AllxtrasPage extends StatelessWidget {
+  const AllxtrasPage({required this.id, required this.user, Key? key})
+      : super(key: key);
 
   final String id;
+  final String user;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ExtrasCubit(Repository())..extrapage(id),
-      child: BlocBuilder<ExtrasCubit, ExtrasState>(
+      create: (context) =>
+          AllextrasCubit(Repository())..allUser(id: id, user: user),
+      child: BlocBuilder<AllextrasCubit, AllextrasState>(
         builder: (context, state) {
           final item = state.page;
           if (item == null) {
@@ -27,9 +30,7 @@ class ExtrasPage extends StatelessWidget {
                     painter: _BackgroundGradientPainter(),
                   ),
                 ),
-                const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                const Center(child: CircularProgressIndicator(),),
               ],
             ));
           }

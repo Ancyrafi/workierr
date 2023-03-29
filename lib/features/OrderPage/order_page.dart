@@ -24,9 +24,19 @@ class _OrderPageState extends State<OrderPage> {
         builder: (context, state) {
           final models = state.documents;
           if (state.load) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return Scaffold(
+                body: Stack(
+              children: [
+                Positioned.fill(
+                  child: CustomPaint(
+                    painter: _BackgroundGradientPainter(),
+                  ),
+                ),
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ],
+            ));
           }
           return Scaffold(
             appBar: AppBar(

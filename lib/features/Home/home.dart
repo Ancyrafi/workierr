@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
               if (index == 2) {
                 return const UserProfile();
               }
-              if (index == 1) {
+              if (index == 0) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -92,15 +92,6 @@ class _HomeState extends State<Home> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            activeIcon: Icon(
-              Icons.add,
-              color: Colors.blue,
-              size: 30,
-            ),
-            label: 'Stwórz zlecenie',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.list_alt),
             activeIcon: Icon(
               Icons.list_alt,
@@ -108,6 +99,15 @@ class _HomeState extends State<Home> {
               size: 30,
             ),
             label: 'Zlecenia',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add),
+            activeIcon: Icon(
+              Icons.add,
+              color: Colors.blue,
+              size: 30,
+            ),
+            label: 'Stwórz zlecenie',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

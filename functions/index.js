@@ -6,24 +6,17 @@ admin.initializeApp();
 exports.deleteExpiredOrders = functions.pubsub
     .schedule("every 2 minutes")
     .onRun(async (context) => {
-      const usersRef = admin.firestore().collection("users");
-      const usersSnapshot = await usersRef.get();
+      try {
+        const itemsRef = admin.firestore().collectionGroup("items");
+        const now = Date.now();
+        console.log("Bieżący czas:", now);
 
-      const now = Date.now();
-      console.log("Bieżący czas:", now);
-
-      console.log("Liczba użytkowników:", usersSnapshot.id);
-
-      usersSnapshot.forEach(async (userDoc) => {
-        console.log("Sprawdzanie użytkownika:", userDoc.id);
-        const itemsRef = userDoc.ref.collection("items");
         const itemsSnapshot = await itemsRef
             .where("deleteTimestamp", "<", now)
             .get();
 
         console.log(
-            `Znaleziono ${itemsSnapshot.size}` +
-          ` dokumentów do usunięcia dla użytkownika ${userDoc.id}`,
+            `Znaleziono ${itemsSnapshot.size} dokumentów do usunięcia`,
         );
 
         itemsSnapshot.forEach(async (itemDoc) => {
@@ -39,5 +32,7 @@ exports.deleteExpiredOrders = functions.pubsub
           await itemDoc.ref.delete();
           console.log("Usunięto zlecenie o ID:", itemDoc.id);
         });
-      });
+      } catch (error) {
+        console.error("Wystąpił błąd podczas usuwania zleceń:", error);
+      }
     });

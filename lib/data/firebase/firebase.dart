@@ -23,6 +23,7 @@ class FirebaseData {
           adress: doc['adress'],
           phoneNumber: doc['phonenumber'],
           fullDescription: doc['fulldescription'],
+          userID: doc['userID'],
         );
       }).toList();
     });
@@ -93,6 +94,31 @@ class FirebaseData {
       phoneNumber: doc['phonenumber'],
       adress: doc['adress'],
       fullDescription: doc['fulldescription'],
+      userID: doc['userID'],
+    );
+  }
+
+    Future<Model> allExtras({required String id, required String user}) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('Do you must logged');
+    }
+
+    final doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user)
+        .collection('items')
+        .doc(id)
+        .get();
+    return Model(
+      title: doc['title'],
+      description: doc['description'],
+      price: doc['price'],
+      id: doc.id,
+      phoneNumber: doc['phonenumber'],
+      adress: doc['adress'],
+      fullDescription: doc['fulldescription'],
+      userID: doc['userID'],
     );
   }
 
@@ -110,6 +136,7 @@ class FirebaseData {
           adress: doc['adress'],
           phoneNumber: doc['phonenumber'],
           fullDescription: doc['fulldescription'],
+          userID: doc['userID'],
         );
       }).toList();
     });

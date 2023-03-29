@@ -1,10 +1,10 @@
-import 'package:aplikacja/features/details/extras/extras_page.dart';
 import 'package:aplikacja/model/model.dart';
 import 'package:aplikacja/repository/repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../all_extras_page/all_extras_page.dart';
 import 'cubit/quest_cubit.dart';
 
 class QuestPage extends StatefulWidget {
@@ -23,9 +23,17 @@ class _QuestPageState extends State<QuestPage> {
         builder: (context, state) {
           final models = state.documents;
           if (state.load) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return Scaffold(
+                body: Stack(
+              children: [
+                Positioned.fill(
+                  child: CustomPaint(painter: _BackgroundGradientPainter()),
+                ),
+                const Center(
+                  child: CircularProgressIndicator(),
+                )
+              ],
+            ));
           }
           return Scaffold(
             appBar: AppBar(
@@ -70,7 +78,9 @@ class DocumentCont extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => ExtrasPage(id: model.id)),
+          MaterialPageRoute(
+              builder: (context) =>
+                  AllxtrasPage(id: model.id, user: model.userID)),
         );
       },
       child: Container(

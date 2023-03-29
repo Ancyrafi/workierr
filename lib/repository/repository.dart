@@ -38,4 +38,11 @@ class Repository {
   Stream<List<Model>> allModel() {
     return _firebaseData.allModel();
   }
+
+  Future<Model> allExtras({
+    required String id,
+    required String user,
+  }) async {
+    return _firebaseData.allExtras(id: id, user: user);
+  }
 }

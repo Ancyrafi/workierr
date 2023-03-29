@@ -7,7 +7,7 @@ class Model {
     required this.adress,
     required this.fullDescription,
     required this.phoneNumber,
-
+    required this.userID,
   });
 
   final String title;
@@ -17,5 +17,5 @@ class Model {
   final String fullDescription;
   final String phoneNumber;
   final String adress;
-
+  final String userID;
 }
