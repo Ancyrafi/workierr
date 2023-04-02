@@ -19,7 +19,7 @@ class Repository {
     required String fullDescription,
     required String phoneNumber,
     required String adress,
-    required int hours,
+    required int minutes,
   }) async {
     _firebaseData.addOrder(
         title: title,
@@ -28,7 +28,7 @@ class Repository {
         fullDescription: fullDescription,
         phoneNumber: phoneNumber,
         adress: adress,
-        hours: hours);
+        minutes: minutes);
   }
 
   Future<Model> extras({required id}) async {
@@ -44,5 +44,21 @@ class Repository {
     required String user,
   }) async {
     return _firebaseData.allExtras(id: id, user: user);
+  }
+
+  Future<void> edit(
+      {required String price,
+      required String phoneNumber,
+      required String description,
+      required String fullDescription,
+      required String adress,
+      required String id}) async {
+    return _firebaseData.editOrder(
+        price: price,
+        phoneNumber: phoneNumber,
+        description: description,
+        fullDescription: fullDescription,
+        adress: adress,
+        id: id);
   }
 }

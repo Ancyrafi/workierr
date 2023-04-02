@@ -15,8 +15,7 @@ class AddOrderCubit extends Cubit<bool> {
     required String fullDescription,
     required String adress,
     required String phoneNumber,
-    required int hours,
-
+    required int minutes,
   }) async {
     emit(false);
     try {
@@ -24,10 +23,10 @@ class AddOrderCubit extends Cubit<bool> {
           title: title,
           description: description,
           price: price,
-          adress: adress,
-          fullDescription: fullDescription,
+          adress: fullDescription,
+          fullDescription: adress,
           phoneNumber: phoneNumber,
-          hours: hours);
+          minutes: minutes);
     } catch (e) {
       emit(false);
       throw Exception('Nie udało się dodać zlecenia: $e');

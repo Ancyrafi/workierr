@@ -4,6 +4,7 @@ import 'package:aplikacja/repository/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../EditOrder/editorder.dart';
 import '../cubit/extras_cubit.dart';
 
 class ExtrasPage extends StatelessWidget {
@@ -43,7 +44,7 @@ class ExtrasPage extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          DocumentCont(models: item),
+                          DocumentCont(models: item, id: id),
                         ],
                       ),
                     ],
@@ -88,9 +89,11 @@ class DocumentCont extends StatelessWidget {
   const DocumentCont({
     super.key,
     required this.models,
+    required this.id,
   });
 
   final Model models;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -182,6 +185,23 @@ class DocumentCont extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+            ),
+            const SizedBox(
+              height: 35,
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => EditOrderPage(id: id))));
+                    },
+                    child: const Text('Edytuj'),
+                  ),
+                ],
               ),
             ),
           ],

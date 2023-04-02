@@ -24,6 +24,9 @@ class FirebaseData {
           phoneNumber: doc['phonenumber'],
           fullDescription: doc['fulldescription'],
           userID: doc['userID'],
+          deleteTimestamp: doc['deleteTimestamp'].toDate(),
+          creationTimestamp:
+              doc['creationTimestamp']?.toDate() ?? DateTime.now(),
         );
       }).toList();
     });
@@ -50,7 +53,7 @@ class FirebaseData {
     required String fullDescription,
     required String phoneNumber,
     required String adress,
-    required int hours,
+    required int minutes,
   }) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
@@ -68,8 +71,7 @@ class FirebaseData {
       'phonenumber': phoneNumber,
       'adress': adress,
       'creationTimestamp': FieldValue.serverTimestamp(),
-      'deleteTimestamp':
-          DateTime.now().add(Duration(minutes: hours)).millisecondsSinceEpoch,
+      'deleteTimestamp': DateTime.now().add(Duration(minutes: minutes)),
       'userID': userID,
     });
   }
@@ -95,10 +97,12 @@ class FirebaseData {
       adress: doc['adress'],
       fullDescription: doc['fulldescription'],
       userID: doc['userID'],
+      deleteTimestamp: doc['deleteTimestamp'].toDate(),
+      creationTimestamp: doc['creationTimestamp']?.toDate() ?? DateTime.now(),
     );
   }
 
-    Future<Model> allExtras({required String id, required String user}) async {
+  Future<Model> allExtras({required String id, required String user}) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
       throw Exception('Do you must logged');
@@ -119,6 +123,8 @@ class FirebaseData {
       adress: doc['adress'],
       fullDescription: doc['fulldescription'],
       userID: doc['userID'],
+      deleteTimestamp: doc['deleteTimestamp'].toDate(),
+      creationTimestamp: doc['creationTimestamp']?.toDate() ?? DateTime.now(),
     );
   }
 
@@ -137,8 +143,36 @@ class FirebaseData {
           phoneNumber: doc['phonenumber'],
           fullDescription: doc['fulldescription'],
           userID: doc['userID'],
+          deleteTimestamp: doc['deleteTimestamp'].toDate(),
+          creationTimestamp:
+              doc['creationTimestamp']?.toDate() ?? DateTime.now(),
         );
       }).toList();
+    });
+  }
+
+  Future<void> editOrder(
+      {required String price,
+      required String phoneNumber,
+      required String description,
+      required String fullDescription,
+      required String adress,
+      required String id}) async {
+    final userID = FirebaseAuth.instance.currentUser?.uid;
+    if (userID == null) {
+      throw Exception('do you must logging');
+    }
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .collection('items')
+        .doc(id)
+        .update({
+      'description': description,
+      'price': price,
+      'fulldescription': fullDescription,
+      'phonenumber': phoneNumber,
+      'adress': adress,
     });
   }
 }

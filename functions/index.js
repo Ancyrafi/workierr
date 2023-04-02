@@ -8,7 +8,7 @@ exports.deleteExpiredOrders = functions.pubsub
     .onRun(async (context) => {
       try {
         const itemsRef = admin.firestore().collectionGroup("items");
-        const now = Date.now();
+        const now = admin.firestore.Timestamp.now();
         console.log("Bieżący czas:", now);
 
         const itemsSnapshot = await itemsRef

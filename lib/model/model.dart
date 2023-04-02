@@ -8,6 +8,8 @@ class Model {
     required this.fullDescription,
     required this.phoneNumber,
     required this.userID,
+    required this.creationTimestamp,
+    required this.deleteTimestamp,
   });
 
   final String title;
@@ -18,4 +20,6 @@ class Model {
   final String phoneNumber;
   final String adress;
   final String userID;
+  final DateTime creationTimestamp;
+  final DateTime deleteTimestamp;
 }

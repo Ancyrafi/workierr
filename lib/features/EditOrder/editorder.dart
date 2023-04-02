@@ -1,37 +1,38 @@
-import 'package:aplikacja/repository/repository.dart';
+import 'package:aplikacja/features/details/extras/extras_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'cubit/addorder_cubit.dart';
+import '../../repository/repository.dart';
+import 'cubit/edit_order_cubit.dart';
 
-class AddOrderPage extends StatefulWidget {
-  const AddOrderPage({super.key});
+class EditOrderPage extends StatefulWidget {
+  const EditOrderPage({required this.id, Key? key}) : super(key: key);
+
+  final String id;
 
   @override
-  State<AddOrderPage> createState() => _AddOrderPageState();
+  State<EditOrderPage> createState() => _EditOrderPageState();
 }
 
-class _AddOrderPageState extends State<AddOrderPage> {
-  final _titleController = TextEditingController();
+class _EditOrderPageState extends State<EditOrderPage> {
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   final _addressController = TextEditingController();
   final _fullDescriptionController = TextEditingController();
-  int? _selectedDuration;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddOrderCubit(Repository()),
+      create: (context) => EditOrderCubit(Repository()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Dodaj zlecenie'),
+          title: const Text('Edytuj swoje zlecenie'),
         ),
         body: SafeArea(
-          child: BlocBuilder<AddOrderCubit, bool>(
-            builder: (context, isSucces) {
-              if (isSucces) {
+          child: BlocBuilder<EditOrderCubit, EditOrderState>(
+            builder: (context, state) {
+              if (state.isSucces) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   Navigator.of(context).pop();
                 });
@@ -42,11 +43,6 @@ class _AddOrderPageState extends State<AddOrderPage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _buildTextField(
-                        labelText: 'Tytuł Zlecenia',
-                        controller: _titleController,
-                        hintText: 'Podaj tytuł swojego zlecenia',
-                      ),
                       _buildTextField(
                         labelText: 'Krótki opis zlecenia',
                         controller: _descriptionController,
@@ -82,62 +78,27 @@ class _AddOrderPageState extends State<AddOrderPage> {
                       const SizedBox(
                         height: 16,
                       ),
-                      DropdownButton<int>(
-                        value: _selectedDuration,
-                        hint: const Text('Wybierz czas trwania'),
-                        onChanged: (int? newValue) {
-                          setState(() {
-                            _selectedDuration = newValue;
-                          });
-                        },
-                        items: const [
-                          DropdownMenuItem(
-                            value: 30,
-                            child: Text('30 minut'),
-                          ),
-                          DropdownMenuItem(
-                            value: 60,
-                            child: Text('1 godzina'),
-                          ),
-                          DropdownMenuItem(
-                            value: 180,
-                            child: Text('3 godziny'),
-                          ),
-                          DropdownMenuItem(
-                            value: 360,
-                            child: Text('6 godzin'),
-                          ),
-                          DropdownMenuItem(
-                            value: 540,
-                            child: Text('9 godzin'),
-                          ),
-                          DropdownMenuItem(
-                            value: 1,
-                            child: Text('minuta test'),
-                          ),
-                        ],
-                      ),
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
-                          if (_titleController.text.isNotEmpty &&
-                              _descriptionController.text.isNotEmpty &&
+                          if (_descriptionController.text.isNotEmpty &&
                               _priceController.text.isNotEmpty &&
                               _phoneNumberController.text.isNotEmpty &&
                               _addressController.text.isNotEmpty &&
-                              _fullDescriptionController.text.isNotEmpty &&
-                              _selectedDuration != null) {
-                            context.read<AddOrderCubit>().addOrder(
-                                  title: _titleController.text,
+                              _fullDescriptionController.text.isNotEmpty) {
+                            context.read<EditOrderCubit>().editOrder(
                                   description: _descriptionController.text,
                                   price: _priceController.text,
                                   phoneNumber: _phoneNumberController.text,
                                   adress: _addressController.text,
                                   fullDescription:
                                       _fullDescriptionController.text,
-                                  minutes: _selectedDuration ?? 30,
+                                  id: widget.id,
                                 );
-                            Navigator.of(context).pop();
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ExtrasPage(
+                                      id: widget.id,
+                                    )));
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -147,7 +108,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                             );
                           }
                         },
-                        child: const Text('Dodaj zlecenie'),
+                        child: const Text('Zapisz podane zmiany'),
                       ),
                     ],
                   ),
@@ -198,7 +159,6 @@ class _AddOrderPageState extends State<AddOrderPage> {
 
   @override
   void dispose() {
-    _titleController.dispose();
     _descriptionController.dispose();
     _priceController.dispose();
     _phoneNumberController.dispose();
