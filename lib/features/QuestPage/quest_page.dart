@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/backgraound_gradient_black_red.dart';
 import '../all_extras_page/all_extras_page.dart';
 import 'cubit/quest_cubit.dart';
 
@@ -30,7 +31,7 @@ class _QuestPageState extends State<QuestPage> {
                 body: Stack(
               children: [
                 Positioned.fill(
-                  child: CustomPaint(painter: _BackgroundGradientPainter()),
+                  child: CustomPaint(painter: BackgroundGradientPainter()),
                 ),
                 const Center(
                   child: CircularProgressIndicator(),
@@ -43,7 +44,7 @@ class _QuestPageState extends State<QuestPage> {
               title: const Text('Aktualne zlecenia w pobliżu'),
             ),
             body: CustomPaint(
-              painter: _BackgroundGradientPainter(),
+              painter: BackgroundGradientPainter(),
               child: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
@@ -180,30 +181,4 @@ class _DocumentContState extends State<DocumentCont> {
       ),
     );
   }
-}
-
-class _BackgroundGradientPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final gradient = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        Colors.black,
-        Colors.red.shade900,
-        Colors.red.shade600,
-        Colors.red,
-      ],
-    );
-
-    final rect = Rect.fromLTWH(0, 0, size.width, size.height);
-    final paint = Paint()
-      ..shader = gradient.createShader(rect)
-      ..style = PaintingStyle.fill;
-
-    canvas.drawRect(rect, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

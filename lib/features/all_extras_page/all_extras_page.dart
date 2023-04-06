@@ -4,6 +4,7 @@ import 'package:aplikacja/repository/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../widgets/backgraound_gradient_black_red.dart';
 import 'cubit/allextras_cubit.dart';
 
 class AllxtrasPage extends StatelessWidget {
@@ -27,16 +28,18 @@ class AllxtrasPage extends StatelessWidget {
               children: [
                 Positioned.fill(
                   child: CustomPaint(
-                    painter: _BackgroundGradientPainter(),
+                    painter: BackgroundGradientPainter(),
                   ),
                 ),
-                const Center(child: CircularProgressIndicator(),),
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
               ],
             ));
           }
           return Scaffold(
             body: CustomPaint(
-              painter: _BackgroundGradientPainter(),
+              painter: BackgroundGradientPainter(),
               child: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
@@ -57,32 +60,6 @@ class AllxtrasPage extends StatelessWidget {
       ),
     );
   }
-}
-
-class _BackgroundGradientPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final gradient = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        Colors.black,
-        Colors.red.shade900,
-        Colors.red.shade600,
-        Colors.red,
-      ],
-    );
-
-    final rect = Rect.fromLTWH(0, 0, size.width, size.height);
-    final paint = Paint()
-      ..shader = gradient.createShader(rect)
-      ..style = PaintingStyle.fill;
-
-    canvas.drawRect(rect, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 class DocumentCont extends StatelessWidget {

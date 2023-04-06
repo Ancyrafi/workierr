@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:aplikacja/model/model.dart';
 import 'package:aplikacja/repository/repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
+import '../../../widgets/backgraound_gradient_black_red.dart';
 import '../../EditOrder/editorder.dart';
 import '../cubit/extras_cubit.dart';
 
@@ -25,7 +29,7 @@ class ExtrasPage extends StatelessWidget {
               children: [
                 Positioned.fill(
                   child: CustomPaint(
-                    painter: _BackgroundGradientPainter(),
+                    painter: BackgroundGradientPainter(),
                   ),
                 ),
                 const Center(
@@ -36,7 +40,7 @@ class ExtrasPage extends StatelessWidget {
           }
           return Scaffold(
             body: CustomPaint(
-              painter: _BackgroundGradientPainter(),
+              painter: BackgroundGradientPainter(),
               child: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
@@ -59,33 +63,7 @@ class ExtrasPage extends StatelessWidget {
   }
 }
 
-class _BackgroundGradientPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final gradient = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        Colors.black,
-        Colors.red.shade900,
-        Colors.red.shade600,
-        Colors.red,
-      ],
-    );
-
-    final rect = Rect.fromLTWH(0, 0, size.width, size.height);
-    final paint = Paint()
-      ..shader = gradient.createShader(rect)
-      ..style = PaintingStyle.fill;
-
-    canvas.drawRect(rect, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class DocumentCont extends StatelessWidget {
+class DocumentCont extends StatefulWidget {
   const DocumentCont({
     super.key,
     required this.models,
@@ -94,6 +72,49 @@ class DocumentCont extends StatelessWidget {
 
   final Model models;
   final String id;
+
+  @override
+  State<DocumentCont> createState() => _DocumentContState();
+}
+
+class _DocumentContState extends State<DocumentCont> {
+  void timerr() {
+    final remainingDuration =
+        widget.models.deleteTimestamp.difference(DateTime.now());
+
+    if (remainingDuration.isNegative) {
+      _timeLeft = '00:00:00';
+    }
+
+    final formatter = NumberFormat("00");
+
+    final hours = remainingDuration.inHours.remainder(60);
+    final minutes = remainingDuration.inMinutes.remainder(60);
+    final seconds = remainingDuration.inSeconds.remainder(60);
+
+    _timeLeft =
+        '${formatter.format(hours)}:${formatter.format(minutes)}:${formatter.format(seconds)}';
+  }
+
+  String _timeLeft = '00:00:00';
+
+  Timer? _countDown;
+
+  @override
+  void initState() {
+    super.initState();
+    _countDown = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        timerr();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _countDown?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +137,7 @@ class DocumentCont extends StatelessWidget {
           children: [
             Center(
               child: Text(
-                models.title,
+                widget.models.title,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -127,7 +148,7 @@ class DocumentCont extends StatelessWidget {
             const SizedBox(height: 10),
             Center(
               child: Text(
-                models.description,
+                widget.models.description,
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.black54,
@@ -136,7 +157,7 @@ class DocumentCont extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Adres: ${models.fullDescription}',
+              'Adres: ${widget.models.fullDescription}',
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -145,7 +166,7 @@ class DocumentCont extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Numer telefonu: ${models.phoneNumber}',
+              'Numer telefonu: ${widget.models.phoneNumber}',
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
@@ -180,7 +201,7 @@ class DocumentCont extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        models.adress,
+                        widget.models.adress,
                       ),
                     ],
                   ),
@@ -197,10 +218,19 @@ class DocumentCont extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => EditOrderPage(id: id))));
+                          builder: ((context) =>
+                              EditOrderPage(id: widget.id))));
                     },
                     child: const Text('Edytuj'),
                   ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const Text('Pozostały czas do końca zlecenia'),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(_timeLeft)
                 ],
               ),
             ),

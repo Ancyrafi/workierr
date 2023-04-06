@@ -46,12 +46,14 @@ class _AddOrderPageState extends State<AddOrderPage> {
                         labelText: 'Tytuł Zlecenia',
                         controller: _titleController,
                         hintText: 'Podaj tytuł swojego zlecenia',
+                        maxLength: 15,
                       ),
                       _buildTextField(
                         labelText: 'Krótki opis zlecenia',
                         controller: _descriptionController,
                         hintText:
                             'Napisz krótki opis zlecenia, aby był widoczny na liście wyboru',
+                        maxLength: 15,
                       ),
                       _buildTextField(
                           controller: _priceController,
@@ -59,18 +61,22 @@ class _AddOrderPageState extends State<AddOrderPage> {
                               'Podaj nam informacje ile jesteś wstanie zapłacić za wykonanie usługi',
                           labelText: 'Kwota',
                           keyboardType: TextInputType.number,
-                          suffixText: 'Zł'),
+                          suffixText: 'Zł',
+                          maxLength: 5),
                       _buildTextField(
                         controller: _phoneNumberController,
                         hintText: 'Podaj numer telefonu w celach kontaktowych',
                         labelText: 'Numer Kontaktowy',
                         keyboardType: TextInputType.phone,
+                        maxLength: 12,
                       ),
                       _buildTextField(
-                          controller: _addressController,
-                          hintText:
-                              'Podaj adres, na który ma się stawić zleceniobiorca',
-                          labelText: 'Adres'),
+                        controller: _addressController,
+                        hintText:
+                            'Podaj adres, na który ma się stawić zleceniobiorca',
+                        labelText: 'Adres',
+                        maxLength: 17,
+                      ),
                       _buildTextField(
                         labelText:
                             'Pełny opis, Opisz dokładnie czego wymagasz.',

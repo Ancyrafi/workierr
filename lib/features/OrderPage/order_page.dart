@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aplikacja/features/OrderPage/cubit/order_cubit.dart';
 import 'package:aplikacja/features/details/extras/extras_page.dart';
 import 'package:aplikacja/model/model.dart';
@@ -5,7 +7,9 @@ import 'package:aplikacja/repository/repository.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
+import '../../widgets/backgraound_gradient_black_red.dart';
 import '../AddOrder/add_order.dart';
 
 class OrderPage extends StatefulWidget {
@@ -29,7 +33,7 @@ class _OrderPageState extends State<OrderPage> {
               children: [
                 Positioned.fill(
                   child: CustomPaint(
-                    painter: _BackgroundGradientPainter(),
+                    painter: BackgroundGradientPainter(),
                   ),
                 ),
                 const Center(
@@ -50,7 +54,7 @@ class _OrderPageState extends State<OrderPage> {
               child: const Icon(Icons.add_box),
             ),
             body: CustomPaint(
-              painter: _BackgroundGradientPainter(),
+              painter: BackgroundGradientPainter(),
               child: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
@@ -81,7 +85,7 @@ class _OrderPageState extends State<OrderPage> {
   }
 }
 
-class DocumentCont extends StatelessWidget {
+class DocumentCont extends StatefulWidget {
   const DocumentCont({
     super.key,
     required this.model,
@@ -90,11 +94,55 @@ class DocumentCont extends StatelessWidget {
   final Model model;
 
   @override
+  State<DocumentCont> createState() => _DocumentContState();
+}
+
+class _DocumentContState extends State<DocumentCont> {
+  void timerr() {
+    final remainingDuration =
+        widget.model.deleteTimestamp.difference(DateTime.now());
+
+    if (remainingDuration.isNegative) {
+      _timeLeft = '00:00:00';
+    }
+
+    final formatter = NumberFormat("00");
+
+    final hours = remainingDuration.inHours.remainder(60);
+    final minutes = remainingDuration.inMinutes.remainder(60);
+    final seconds = remainingDuration.inSeconds.remainder(60);
+
+    _timeLeft =
+        '${formatter.format(hours)}:${formatter.format(minutes)}:${formatter.format(seconds)}';
+  }
+
+  String _timeLeft = '00:00:00';
+
+  Timer? _countDown;
+
+  @override
+  void initState() {
+    super.initState();
+    _countDown = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        timerr();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _countDown?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => ExtrasPage(id: model.id)),
+          MaterialPageRoute(
+              builder: (context) => ExtrasPage(id: widget.model.id)),
         );
       },
       child: Container(
@@ -118,7 +166,7 @@ class DocumentCont extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    model.title,
+                    widget.model.title,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -127,7 +175,7 @@ class DocumentCont extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    model.description,
+                    widget.model.description,
                     style: const TextStyle(
                       fontSize: 14,
                       color: Colors.black54,
@@ -136,42 +184,17 @@ class DocumentCont extends StatelessWidget {
                 ],
               ),
               Text(
-                '${model.price} zł',
+                '${widget.model.price} zł',
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.black54,
                 ),
               ),
+              Text(_timeLeft)
             ],
           ),
         ),
       ),
     );
   }
-}
-
-class _BackgroundGradientPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final gradient = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        Colors.black,
-        Colors.red.shade900,
-        Colors.red.shade600,
-        Colors.red,
-      ],
-    );
-
-    final rect = Rect.fromLTWH(0, 0, size.width, size.height);
-    final paint = Paint()
-      ..shader = gradient.createShader(rect)
-      ..style = PaintingStyle.fill;
-
-    canvas.drawRect(rect, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
