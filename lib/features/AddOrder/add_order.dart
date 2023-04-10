@@ -1,6 +1,8 @@
 import 'package:aplikacja/repository/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_webservice/places.dart';
 
 import 'cubit/addorder_cubit.dart';
 
@@ -19,6 +21,8 @@ class _AddOrderPageState extends State<AddOrderPage> {
   final _addressController = TextEditingController();
   final _fullDescriptionController = TextEditingController();
   int? _selectedDuration;
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +179,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
     int maxLines = 1,
     String? suffixText,
   }) {
-    return Container(
+    Widget textField = Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       decoration: BoxDecoration(
@@ -184,6 +188,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
       ),
       child: TextField(
         controller: controller,
+        focusNode: labelText == 'Adres' ? AlwaysDisabledFocusNode() : null,
         keyboardType: keyboardType,
         maxLength: maxLength,
         maxLines: maxLines,
@@ -200,16 +205,37 @@ class _AddOrderPageState extends State<AddOrderPage> {
         style: const TextStyle(fontSize: 16.0),
       ),
     );
-  }
 
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    _priceController.dispose();
-    _phoneNumberController.dispose();
-    _addressController.dispose();
-    _fullDescriptionController.dispose();
-    super.dispose();
+    if (labelText == 'Adres') {
+      return GestureDetector(
+        onDoubleTap: () async {
+          try {
+            Prediction? prediction;
+            prediction = await PlacesAutocomplete.show(
+                context: context,
+                apiKey: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDlHlwu-MYgwOsSje5j9i7XIn_O8J4dHm0&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC',
+                mode: Mode.overlay,
+                language: 'pl',
+                components: [Component(Component.country, 'pl')]);
+
+            if (prediction != null) {
+              setState(() {
+                _addressController.text = prediction?.description ?? '';
+              });
+            }
+          } catch (e) {
+            print(e);
+          }
+        },
+        child: textField,
+      );
+    } else {
+      return textField;
+    }
   }
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }
