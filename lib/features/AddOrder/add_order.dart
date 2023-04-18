@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:aplikacja/repository/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:google_maps_webservice/places.dart';
 
+import '../../data/firebase/cos.dart';
+import '../../widgets/textfield.dart';
 import 'cubit/addorder_cubit.dart';
 
 class AddOrderPage extends StatefulWidget {
@@ -18,11 +20,42 @@ class _AddOrderPageState extends State<AddOrderPage> {
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
   final _phoneNumberController = TextEditingController();
-  final _addressController = TextEditingController();
+  var addressController = TextEditingController();
   final _fullDescriptionController = TextEditingController();
   int? _selectedDuration;
 
- 
+  bool closeSearch = false;
+
+  final StreamController<List<String>?> _sugestionAdres =
+      StreamController<List<String>?>();
+  Timer? _debounce;
+
+  void onSearchTextChanged(String searchText) async {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+
+    if (searchText.isEmpty) {
+      setState(() {
+        closeSearch = false;
+      });
+      return;
+    }
+
+    _debounce = Timer(const Duration(milliseconds: 500), () async {
+      List<String> suggestions = await getPlaceSuggestions(searchText);
+      _sugestionAdres.add(suggestions);
+      setState(() {
+        closeSearch = true;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    addressController.dispose();
+    _sugestionAdres.close();
+    _debounce?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,20 +79,51 @@ class _AddOrderPageState extends State<AddOrderPage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _buildTextField(
+                      buildTextField(
                         labelText: 'Tytuł Zlecenia',
                         controller: _titleController,
                         hintText: 'Podaj tytuł swojego zlecenia',
                         maxLength: 15,
                       ),
-                      _buildTextField(
+                      buildTextField(
                         labelText: 'Krótki opis zlecenia',
                         controller: _descriptionController,
                         hintText:
                             'Napisz krótki opis zlecenia, aby był widoczny na liście wyboru',
                         maxLength: 15,
                       ),
-                      _buildTextField(
+                      TextField(
+                        controller: addressController,
+                        onChanged: onSearchTextChanged,
+                        decoration:
+                            const InputDecoration(hintText: 'Podaj Adres'),
+                      ),
+                      StreamBuilder(
+                          stream: _sugestionAdres.stream,
+                          builder: (context, snapshot) {
+                            if (!closeSearch || !snapshot.hasData) {
+                              return Container();
+                            } else {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data?.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Text(snapshot.data![index]),
+                                    onTap: () {
+                                      setState(() {
+                                        _debounce?.cancel();
+                                        addressController.text =
+                                            snapshot.data![index];
+                                        closeSearch = false;
+                                      });
+                                    },
+                                  );
+                                },
+                              );
+                            }
+                          }),
+                      buildTextField(
                           controller: _priceController,
                           hintText:
                               'Podaj nam informacje ile jesteś wstanie zapłacić za wykonanie usługi',
@@ -67,21 +131,14 @@ class _AddOrderPageState extends State<AddOrderPage> {
                           keyboardType: TextInputType.number,
                           suffixText: 'Zł',
                           maxLength: 5),
-                      _buildTextField(
+                      buildTextField(
                         controller: _phoneNumberController,
                         hintText: 'Podaj numer telefonu w celach kontaktowych',
                         labelText: 'Numer Kontaktowy',
                         keyboardType: TextInputType.phone,
                         maxLength: 12,
                       ),
-                      _buildTextField(
-                        controller: _addressController,
-                        hintText:
-                            'Podaj adres, na który ma się stawić zleceniobiorca',
-                        labelText: 'Adres',
-                        maxLength: 17,
-                      ),
-                      _buildTextField(
+                      buildTextField(
                         labelText:
                             'Pełny opis, Opisz dokładnie czego wymagasz.',
                         controller: _fullDescriptionController,
@@ -134,7 +191,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                               _descriptionController.text.isNotEmpty &&
                               _priceController.text.isNotEmpty &&
                               _phoneNumberController.text.isNotEmpty &&
-                              _addressController.text.isNotEmpty &&
+                              addressController.text.isNotEmpty &&
                               _fullDescriptionController.text.isNotEmpty &&
                               _selectedDuration != null) {
                             context.read<AddOrderCubit>().addOrder(
@@ -142,7 +199,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                                   description: _descriptionController.text,
                                   price: _priceController.text,
                                   phoneNumber: _phoneNumberController.text,
-                                  adress: _addressController.text,
+                                  adress: addressController.text,
                                   fullDescription:
                                       _fullDescriptionController.text,
                                   minutes: _selectedDuration ?? 30,
@@ -169,73 +226,4 @@ class _AddOrderPageState extends State<AddOrderPage> {
       ),
     );
   }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    required String labelText,
-    TextInputType keyboardType = TextInputType.text,
-    int? maxLength,
-    int maxLines = 1,
-    String? suffixText,
-  }) {
-    Widget textField = Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: Colors.grey),
-      ),
-      child: TextField(
-        controller: controller,
-        focusNode: labelText == 'Adres' ? AlwaysDisabledFocusNode() : null,
-        keyboardType: keyboardType,
-        maxLength: maxLength,
-        maxLines: maxLines,
-        decoration: InputDecoration(
-          labelText: labelText,
-          hintText: hintText,
-          hintStyle: const TextStyle(color: Colors.grey),
-          border: InputBorder.none,
-          counterText: '',
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
-          suffixText: suffixText,
-        ),
-        style: const TextStyle(fontSize: 16.0),
-      ),
-    );
-
-    if (labelText == 'Adres') {
-      return GestureDetector(
-        onDoubleTap: () async {
-          try {
-            Prediction? prediction;
-            prediction = await PlacesAutocomplete.show(
-                context: context,
-                apiKey: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDlHlwu-MYgwOsSje5j9i7XIn_O8J4dHm0&libraries=places&callback=initMap&solution_channel=GMP_QB_addressselection_v1_cABC',
-                mode: Mode.overlay,
-                language: 'pl',
-                components: [Component(Component.country, 'pl')]);
-
-            if (prediction != null) {
-              setState(() {
-                _addressController.text = prediction?.description ?? '';
-              });
-            }
-          } catch (e) {
-            print(e);
-          }
-        },
-        child: textField,
-      );
-    } else {
-      return textField;
-    }
-  }
-}
-
-class AlwaysDisabledFocusNode extends FocusNode {
-  @override
-  bool get hasFocus => false;
 }
