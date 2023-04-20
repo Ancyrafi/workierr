@@ -1,5 +1,5 @@
 import 'package:aplikacja/data/firebase/firebase.dart';
-import 'package:aplikacja/model/model.dart';
+
 
 class Repository {
   final FirebaseData _firebaseData = FirebaseData();
@@ -8,7 +8,7 @@ class Repository {
     _firebaseData.delete(id: id);
   }
 
-  Stream<List<Model>> getModel() {
+  Stream getModel() {
     return _firebaseData.getModel();
   }
 
@@ -31,15 +31,15 @@ class Repository {
         minutes: minutes);
   }
 
-  Future<Model> extras({required id}) async {
+  Future extras({required id}) async {
     return _firebaseData.extras(id: id);
   }
 
-  Stream<List<Model>> allModel() {
+  Stream allModel() {
     return _firebaseData.allModel();
   }
 
-  Future<Model> allExtras({
+  Future allExtras({
     required String id,
     required String user,
   }) async {
