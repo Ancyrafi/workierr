@@ -14,6 +14,7 @@ Widget buildTextField({
     margin: const EdgeInsets.symmetric(vertical: 8.0),
     padding: const EdgeInsets.symmetric(horizontal: 8.0),
     decoration: BoxDecoration(
+      color: Colors.white,
       borderRadius: BorderRadius.circular(16.0),
       border: Border.all(color: Colors.grey),
     ),

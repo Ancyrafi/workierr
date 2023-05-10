@@ -120,6 +120,17 @@ class DocumentCont extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
+              'Miasto: ${models.city}',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
               'Numer telefonu: ${models.phoneNumber}',
               style: const TextStyle(
                 fontSize: 14,

@@ -19,6 +19,8 @@ class QuestPage extends StatefulWidget {
 }
 
 class _QuestPageState extends State<QuestPage> {
+  String? searchCity;
+  bool search = false;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -39,6 +41,14 @@ class _QuestPageState extends State<QuestPage> {
               ],
             ));
           }
+
+          final filteredModels = models
+              .where((model) => searchCity == null || searchCity!.isEmpty
+                  ? true
+                  : model.city
+                      .toLowerCase()
+                      .contains(searchCity!.toLowerCase()))
+              .toList();
           return Scaffold(
             // appBar: AppBar(
             //   title: const Text('Aktualne zlecenia w pobliżu'),
@@ -50,7 +60,53 @@ class _QuestPageState extends State<QuestPage> {
                   padding: const EdgeInsets.all(10),
                   child: ListView(
                     children: [
-                      for (final model in models) ...[
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (search == false) {
+                              setState(() {
+                                search = true;
+                              });
+                            } else {
+                              setState(() {
+                                search = false;
+                              });
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              minimumSize: const Size(25, 25)),
+                          child: const Icon(
+                            Icons.search,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      if (search == true)
+                        TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Wpisz miasto',
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              searchCity = value;
+                            });
+                          },
+                        ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      for (final model in filteredModels) ...[
                         Column(
                           children: [
                             DocumentCont(model: model),
