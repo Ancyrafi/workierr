@@ -43,9 +43,9 @@ class _OrderPageState extends State<OrderPage> {
             ));
           }
           return Scaffold(
-            appBar: AppBar(
-              title: const Text('Wystaw swoje zlecenie'),
-            ),
+            // appBar: AppBar(
+            //   title: const Text('Wystaw swoje zlecenie'),
+            // ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(

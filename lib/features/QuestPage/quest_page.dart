@@ -40,9 +40,9 @@ class _QuestPageState extends State<QuestPage> {
             ));
           }
           return Scaffold(
-            appBar: AppBar(
-              title: const Text('Aktualne zlecenia w pobliżu'),
-            ),
+            // appBar: AppBar(
+            //   title: const Text('Aktualne zlecenia w pobliżu'),
+            // ),
             body: CustomPaint(
               painter: BackgroundGradientPainter(),
               child: SafeArea(

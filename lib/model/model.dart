@@ -10,6 +10,7 @@ class Model {
     required this.userID,
     required this.creationTimestamp,
     required this.deleteTimestamp,
+    required this.city
   });
 
   final String title;
@@ -22,4 +23,5 @@ class Model {
   final String userID;
   final DateTime creationTimestamp;
   final DateTime deleteTimestamp;
+  final String city;
 }

@@ -15,7 +15,7 @@ class UserProfile extends StatelessWidget {
         SignedOutAction((context) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const AuthGate(),
+              builder: (context) => const Auth(),
             ),
           );
         }),

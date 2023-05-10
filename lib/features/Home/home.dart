@@ -1,6 +1,8 @@
+import 'package:aplikacja/features/Auth/pages/auth_gate.dart';
 import 'package:aplikacja/features/Auth/pages/user_page.dart';
 import 'package:aplikacja/features/OrderPage/order_page.dart';
 import 'package:aplikacja/features/QuestPage/quest_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/backgraound_gradient_black_red.dart';
@@ -13,10 +15,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String? userID = FirebaseAuth.instance.currentUser?.uid;
   var index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Center(child: Text('Skezik')),
+        backgroundColor: Colors.black,
+      ),
       body: CustomPaint(
         painter: BackgroundGradientPainter(),
         child: SafeArea(
@@ -24,68 +31,25 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.all(16.0),
             child: Builder(builder: (context) {
               if (index == 2) {
+                if (userID == null) {
+                  return const Auth();
+                }
                 return const UserProfile();
               }
-              if (index == 0) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const QuestPage()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24.0, vertical: 12.0),
-                          textStyle: const TextStyle(fontSize: 18.0),
-                        ),
-                        child: const Text('Szukaj zlecenia'),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                    ],
-                  ),
-                );
+              if (index == 1) {
+                if (userID == null) {
+                  return const Auth();
+                } else {
+                  return const OrderPage();
+                }
               }
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Center(
-                    child: Text(
-                      'Wybierz Czego szukasz',
-                      style: TextStyle(
-                          fontSize: 24.0, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: ((context) => const OrderPage()),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 24.0, vertical: 12.0),
-                      textStyle: const TextStyle(fontSize: 18.0),
-                    ),
-                    child: const Text('Wystaw zlecenie'),
-                  ),
-                ],
-              );
+              return const QuestPage();
             }),
           ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 109, 153, 117),
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         currentIndex: index,
         onTap: (newIndex) {
           setState(() {
@@ -94,7 +58,10 @@ class _HomeState extends State<Home> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
+            icon: Icon(
+              Icons.list_alt,
+              color: Colors.red,
+            ),
             activeIcon: Icon(
               Icons.list_alt,
               color: Colors.blue,
@@ -103,7 +70,10 @@ class _HomeState extends State<Home> {
             label: 'Zlecenia',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add),
+            icon: Icon(
+              Icons.add,
+              color: Colors.red,
+            ),
             activeIcon: Icon(
               Icons.add,
               color: Colors.blue,
@@ -112,7 +82,10 @@ class _HomeState extends State<Home> {
             label: 'Stwórz zlecenie',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(
+              Icons.person,
+              color: Colors.red,
+            ),
             activeIcon: Icon(
               Icons.person,
               color: Colors.blue,

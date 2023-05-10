@@ -4,6 +4,7 @@ Widget buildTextField({
   required TextEditingController controller,
   required String hintText,
   required String labelText,
+  required bool visible,
   TextInputType keyboardType = TextInputType.text,
   int? maxLength,
   int maxLines = 1,
@@ -17,6 +18,7 @@ Widget buildTextField({
       border: Border.all(color: Colors.grey),
     ),
     child: TextField(
+      obscureText: visible,
       controller: controller,
       keyboardType: keyboardType,
       maxLength: maxLength,

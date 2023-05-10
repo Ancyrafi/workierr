@@ -16,6 +16,7 @@ class FirebaseData {
         .map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
         return Model(
+          city: doc['city'],
           title: doc['title'],
           description: doc['description'],
           price: doc['price'],
@@ -54,6 +55,7 @@ class FirebaseData {
     required String phoneNumber,
     required String adress,
     required int minutes,
+    required String city,
   }) async {
     final userID = FirebaseAuth.instance.currentUser?.uid;
     if (userID == null) {
@@ -65,6 +67,7 @@ class FirebaseData {
         .collection('items')
         .add({
       'title': title,
+      'city' : city,
       'description': description,
       'price': price,
       'fulldescription': fullDescription,
@@ -89,6 +92,7 @@ class FirebaseData {
         .doc(id)
         .get();
     return Model(
+      city: doc['city'],
       title: doc['title'],
       description: doc['description'],
       price: doc['price'],
@@ -115,6 +119,7 @@ class FirebaseData {
         .doc(id)
         .get();
     return Model(
+      city: doc['city'],
       title: doc['title'],
       description: doc['description'],
       price: doc['price'],
@@ -135,6 +140,7 @@ class FirebaseData {
         .map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
         return Model(
+          city: doc['city'],
           title: doc['title'],
           description: doc['description'],
           price: doc['price'],

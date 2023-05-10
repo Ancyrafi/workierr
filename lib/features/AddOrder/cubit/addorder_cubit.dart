@@ -16,10 +16,12 @@ class AddOrderCubit extends Cubit<bool> {
     required String adress,
     required String phoneNumber,
     required int minutes,
+    required String city,
   }) async {
     emit(false);
     try {
       await _repository.addOrder(
+        city: city,
           title: title,
           description: description,
           price: price,

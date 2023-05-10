@@ -81,12 +81,14 @@ class _EditOrderPageState extends State<EditOrderPage> {
                   child: Column(
                     children: [
                       buildTextField(
+                        visible: false,
                         labelText: 'Krótki opis zlecenia',
                         controller: _descriptionController,
                         hintText:
                             'Napisz krótki opis zlecenia, aby był widoczny na liście wyboru',
                       ),
                       buildTextField(
+                          visible: false,
                           controller: _priceController,
                           hintText:
                               'Podaj nam informacje ile jesteś wstanie zapłacić za wykonanie usługi',
@@ -125,12 +127,14 @@ class _EditOrderPageState extends State<EditOrderPage> {
                             }
                           }),
                       buildTextField(
+                        visible: false,
                         controller: _phoneNumberController,
                         hintText: 'Podaj numer telefonu w celach kontaktowych',
                         labelText: 'Numer Kontaktowy',
                         keyboardType: TextInputType.phone,
                       ),
                       buildTextField(
+                        visible: false,
                         labelText:
                             'Pełny opis, Opisz dokładnie czego wymagasz.',
                         controller: _fullDescriptionController,

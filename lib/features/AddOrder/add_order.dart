@@ -19,6 +19,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
+  final _cityController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   var addressController = TextEditingController();
   final _fullDescriptionController = TextEditingController();
@@ -80,12 +81,14 @@ class _AddOrderPageState extends State<AddOrderPage> {
                   child: Column(
                     children: [
                       buildTextField(
+                        visible: false,
                         labelText: 'Tytuł Zlecenia',
                         controller: _titleController,
                         hintText: 'Podaj tytuł swojego zlecenia',
                         maxLength: 15,
                       ),
                       buildTextField(
+                        visible: false,
                         labelText: 'Krótki opis zlecenia',
                         controller: _descriptionController,
                         hintText:
@@ -95,8 +98,27 @@ class _AddOrderPageState extends State<AddOrderPage> {
                       TextField(
                         controller: addressController,
                         onChanged: onSearchTextChanged,
-                        decoration:
-                            const InputDecoration(hintText: 'Podaj Adres'),
+                        decoration: InputDecoration(
+                          hintText: 'Podaj Adres',
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none),
+                        ),
+                      ),
+                      TextField(
+                        controller: _cityController,
+                        decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide.none),
+                            hintText: 'Wpisz miasto.'),
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       StreamBuilder(
                           stream: _sugestionAdres.stream,
@@ -112,9 +134,17 @@ class _AddOrderPageState extends State<AddOrderPage> {
                                     title: Text(snapshot.data![index]),
                                     onTap: () {
                                       setState(() {
+                                        List<String> city =
+                                            snapshot.data![index].split(', ');
+                                        if (city.length > 1) {
+                                          city.removeAt(0);
+                                          city.removeLast();
+                                        }
+                                        String citys = city[0];
                                         _debounce?.cancel();
                                         addressController.text =
                                             snapshot.data![index];
+                                        _cityController.text = citys;
                                         closeSearch = false;
                                       });
                                     },
@@ -124,6 +154,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                             }
                           }),
                       buildTextField(
+                          visible: false,
                           controller: _priceController,
                           hintText:
                               'Podaj nam informacje ile jesteś wstanie zapłacić za wykonanie usługi',
@@ -132,6 +163,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                           suffixText: 'Zł',
                           maxLength: 5),
                       buildTextField(
+                        visible: false,
                         controller: _phoneNumberController,
                         hintText: 'Podaj numer telefonu w celach kontaktowych',
                         labelText: 'Numer Kontaktowy',
@@ -139,6 +171,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                         maxLength: 12,
                       ),
                       buildTextField(
+                        visible: false,
                         labelText:
                             'Pełny opis, Opisz dokładnie czego wymagasz.',
                         controller: _fullDescriptionController,
@@ -195,6 +228,7 @@ class _AddOrderPageState extends State<AddOrderPage> {
                               _fullDescriptionController.text.isNotEmpty &&
                               _selectedDuration != null) {
                             context.read<AddOrderCubit>().addOrder(
+                                  city: _cityController.text,
                                   title: _titleController.text,
                                   description: _descriptionController.text,
                                   price: _priceController.text,

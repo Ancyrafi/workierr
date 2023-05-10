@@ -19,8 +19,10 @@ class Repository {
     required String phoneNumber,
     required String adress,
     required int minutes,
+    required String city,
   }) async {
     _firebaseData.addOrder(
+        city: city,
         title: title,
         description: description,
         price: price,
