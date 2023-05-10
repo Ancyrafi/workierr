@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
                 if (userID == null) {
                   return const Auth();
                 }
-                return const UserProfile();
+                return const Account();
               }
               if (index == 1) {
                 if (userID == null) {

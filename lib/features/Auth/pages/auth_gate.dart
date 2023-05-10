@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
@@ -75,11 +74,21 @@ class _AuthState extends State<Auth> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(70, 50)),
-                      onPressed: () {
+                      onPressed: () async {
                         if (check) {
                           if (pass.text.isNotEmpty && email.text.isNotEmpty) {
-                            FirebaseAuth.instance.signInWithEmailAndPassword(
-                                email: email.text, password: pass.text);
+                            try {
+                              await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                      email: email.text, password: pass.text);
+                            } catch (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Błędny E-mail lub Hasło'),
+                                  backgroundColor: Colors.black,
+                                ),
+                              );
+                            }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -93,10 +102,18 @@ class _AuthState extends State<Auth> {
                               email.text.isNotEmpty &&
                               confirmPass.text.isNotEmpty) {
                             if (pass.text == confirmPass.text) {
-                              FirebaseAuth.instance
-                                  .createUserWithEmailAndPassword(
-                                      email: email.text, password: pass.text);
-                              Navigator.of(context).pop;
+                              try {
+                                await FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                        email: email.text, password: pass.text);
+                              } catch (error) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'Hasło powinno mieć minimum 6 znaków'),
+                                  ),
+                                );
+                              }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
