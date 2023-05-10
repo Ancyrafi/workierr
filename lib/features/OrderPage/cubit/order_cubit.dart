@@ -27,10 +27,6 @@ class OrderCubit extends Cubit<OrderState> {
       ),
     );
 
-    await Future.delayed(
-      const Duration(seconds: 1),
-    );
-
     _streamSubscription = _repository.getModel().listen((model) {
       emit(
         OrderState(documents: model, load: false),

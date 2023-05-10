@@ -27,10 +27,6 @@ class QuestCubit extends Cubit<QuestState> {
       ),
     );
 
-    await Future.delayed(
-      const Duration(seconds: 1),
-    );
-
     _streamSubscription = _repository.allModel().listen((model) {
       emit(
         QuestState(documents: model, load: false),
