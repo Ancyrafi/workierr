@@ -1,6 +1,6 @@
 {
-    "name": "aplikacja",
-    "short_name": "aplikacja",
+    "name": "skezik",
+    "short_name": "skezik",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

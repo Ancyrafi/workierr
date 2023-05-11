@@ -1,4 +1,4 @@
-import 'package:aplikacja/model/model.dart';
+import 'package:skezik/model/model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -67,7 +67,7 @@ class FirebaseData {
         .collection('items')
         .add({
       'title': title,
-      'city' : city,
+      'city': city,
       'description': description,
       'price': price,
       'fulldescription': fullDescription,

@@ -1,4 +1,4 @@
-import 'package:aplikacja/repository/repository.dart';
+import 'package:skezik/repository/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'addorder_state.dart';
@@ -21,7 +21,7 @@ class AddOrderCubit extends Cubit<bool> {
     emit(false);
     try {
       await _repository.addOrder(
-        city: city,
+          city: city,
           title: title,
           description: description,
           price: price,

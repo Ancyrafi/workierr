@@ -1,7 +1,7 @@
-import 'package:aplikacja/features/Auth/pages/auth_gate.dart';
-import 'package:aplikacja/features/Auth/pages/user_page.dart';
-import 'package:aplikacja/features/OrderPage/order_page.dart';
-import 'package:aplikacja/features/QuestPage/quest_page.dart';
+import 'package:skezik/features/Auth/pages/auth_gate.dart';
+import 'package:skezik/features/Auth/pages/user_page.dart';
+import 'package:skezik/features/OrderPage/order_page.dart';
+import 'package:skezik/features/QuestPage/quest_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text('Skezik')),
+        title: const Center(child: Text('skezik')),
         backgroundColor: Colors.black,
       ),
       body: CustomPaint(

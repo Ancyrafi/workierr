@@ -1,4 +1,4 @@
-# aplikacja
+# skezik
 
 A new Flutter project.
 

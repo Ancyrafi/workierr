@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:aplikacja/repository/repository.dart';
+import 'package:skezik/repository/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../model/model.dart';
