@@ -1,4 +1,4 @@
-package com.ersa.skezik
+package com.ersa.aplikacja
 
 import io.flutter.embedding.android.FlutterActivity
 

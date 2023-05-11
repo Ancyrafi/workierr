@@ -1,5 +1,5 @@
-import 'package:skezik/features/Auth/pages/auth_gate.dart';
-import 'package:skezik/widgets/backgraound_gradient_black_red.dart';
+import 'package:aplikacja/features/Auth/pages/auth_gate.dart';
+import 'package:aplikacja/widgets/backgraound_gradient_black_red.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';

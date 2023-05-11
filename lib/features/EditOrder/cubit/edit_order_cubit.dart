@@ -1,4 +1,4 @@
-import 'package:skezik/repository/repository.dart';
+import 'package:aplikacja/repository/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'edit_order_state.dart';

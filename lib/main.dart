@@ -1,4 +1,4 @@
-import 'package:skezik/features/Auth/pages/auth_gate.dart';
+import 'package:aplikacja/features/Auth/pages/auth_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'skezik',
+      title: 'aplikacja',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
