@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:aplikacja/features/details/extras/extras_page.dart';
-import 'package:aplikacja/widgets/backgraound_gradient_black_red.dart';
+import 'package:skezik/features/details/extras/extras_page.dart';
+import 'package:skezik/widgets/backgraound_gradient_black_red.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

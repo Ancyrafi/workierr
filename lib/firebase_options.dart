@@ -65,6 +65,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'nowyprojektdrive.appspot.com',
     iosClientId:
         '637908031121-3cam8ljbh2rjld2ic3npj4e7nmsop6nr.apps.googleusercontent.com',
-    iosBundleId: 'com.ersa.aplikacja',
+    iosBundleId: 'com.ersa.skezik',
   );
 }

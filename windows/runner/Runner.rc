@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.ersa" "\0"
-            VALUE "FileDescription", "aplikacja" "\0"
+            VALUE "FileDescription", "skezik" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "aplikacja" "\0"
+            VALUE "InternalName", "skezik" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.ersa. All rights reserved." "\0"
-            VALUE "OriginalFilename", "aplikacja.exe" "\0"
-            VALUE "ProductName", "aplikacja" "\0"
+            VALUE "OriginalFilename", "skezik.exe" "\0"
+            VALUE "ProductName", "skezik" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

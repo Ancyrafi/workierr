@@ -1,4 +1,4 @@
-import 'package:aplikacja/data/firebase/firebase.dart';
+import 'package:skezik/data/firebase/firebase.dart';
 
 class Repository {
   final FirebaseData _firebaseData = FirebaseData();

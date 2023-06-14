@@ -1,34 +1,34 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/auth.dart';
+
 
 import '../../../widgets/backgraound_gradient_black_red.dart';
 import '../../../widgets/textfield.dart';
 import '../../Home/home.dart';
 
-class AuthGate extends StatelessWidget {
-  const AuthGate({Key? key}) : super(key: key);
+// class AuthGate extends StatelessWidget {
+//   const AuthGate({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      // If the user is already signed-in, use it as initial data
-      initialData: FirebaseAuth.instance.currentUser,
-      builder: (context, snapshot) {
-        // User is not signed in
-        if (!snapshot.hasData) {
-          return const SignInScreen(providerConfigs: [
-            EmailProviderConfiguration(),
-          ]);
-        }
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder<User?>(
+//       stream: FirebaseAuth.instance.authStateChanges(),
+//       // If the user is already signed-in, use it as initial data
+//       initialData: FirebaseAuth.instance.currentUser,
+//       builder: (context, snapshot) {
+//         // User is not signed in
+//         if (!snapshot.hasData) {
+//           return const SignInScreen(providerConfigs: [
+//             EmailProviderConfiguration(),
+//           ]);
+//         }
 
-        // Render your application if authenticated
-        return const Home();
-      },
-    );
-  }
-}
+//         // Render your application if authenticated
+//         return const Home();
+//       },
+//     );
+//   }
+// }
 
 class Auth extends StatefulWidget {
   const Auth({super.key});
